@@ -2,14 +2,18 @@ package se.replyto.microservices.camelmicroservicea.routes.patterns;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.dataformat.csv.CsvDataFormat;
+import org.apache.camel.model.dataformat.JsonDataFormat;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 @Component
 public class EipPatternsRouter extends RouteBuilder {
+
+
     @Override
     public void configure() throws Exception {
+
+
 
         CsvDataFormat csvFormat = new CsvDataFormat();
         csvFormat.setSkipHeaderRecord(true);
@@ -35,6 +39,11 @@ public class EipPatternsRouter extends RouteBuilder {
                     System.out.println(exchange.getIn().getBody());
                 })
                 .split(body())
+                .marshal().json(JsonLibrary.Jackson)
+                .transform(body().regexReplaceAll("from", "source"))
+                .transform(body().regexReplaceAll("to", "dest"))
+                .transform(body().regexReplaceAll("conversionMultiple", "convRate"))
+                .transform(body().regexReplaceAll(",", ",\n"))
                 .pipeline()
                 .to("activemq:split-queue")
                 .end();
