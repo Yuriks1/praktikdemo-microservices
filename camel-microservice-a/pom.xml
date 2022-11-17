@@ -46,6 +46,11 @@
 			<artifactId>camel-http-starter</artifactId>
 			<version>3.18.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.camel.springboot</groupId>
+			<artifactId>camel-csv-starter</artifactId>
+			<version>3.18.1</version>
+		</dependency>
 
 
 

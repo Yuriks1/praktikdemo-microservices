@@ -10,7 +10,7 @@ import se.replyto.microservices.camelmicroserviceb.CurrencyExchange;
 
 import java.math.BigDecimal;
 
-//@Component
+@Component
 public class ActiveMqReceiverRouter extends RouteBuilder {
 
     @Autowired
@@ -29,18 +29,22 @@ public class ActiveMqReceiverRouter extends RouteBuilder {
                 .to("log:received-message-from-active-mq");*/
 
 
-        from("activemq:my-activemq-xml-queue")
-                .unmarshal()
-                .jacksonXml(CurrencyExchange.class)
-                .bean(myCurrencyExchangeProcessor)
-                .bean(myCurrencyExchangeProcessorTransformer)
-                .to("log:received-message-from-active-xml-mq");
+//        from("activemq:my-activemq-xml-queue")
+//                .unmarshal()
+//                .jacksonXml(CurrencyExchange.class)
+//                .bean(myCurrencyExchangeProcessor)
+//                .bean(myCurrencyExchangeProcessorTransformer)
+//                .to("log:received-message-from-active-xml-mq");
+
+        from("activemq:split-queue")
+
+                .to("log:received-message-from-active-mq");
 
     }
 
 }
 
-//@Component
+@Component
 class MyCurrencyExchangeProcessor {
     Logger logger = LoggerFactory.getLogger(MyCurrencyExchangeProcessor.class);
 
@@ -50,7 +54,7 @@ class MyCurrencyExchangeProcessor {
     }
 }
 
-//@Component
+@Component
 class MyCurrencyExchangeProcessorTransformer {
     Logger logger = LoggerFactory.getLogger(MyCurrencyExchangeProcessor.class);
 
