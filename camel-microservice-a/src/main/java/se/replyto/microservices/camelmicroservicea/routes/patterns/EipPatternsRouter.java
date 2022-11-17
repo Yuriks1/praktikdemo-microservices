@@ -44,6 +44,7 @@ public class EipPatternsRouter extends RouteBuilder {
                 .transform(body().regexReplaceAll("to", "dest"))
                 .transform(body().regexReplaceAll("conversionMultiple", "convRate"))
                 .transform(body().regexReplaceAll(",", ",\n"))
+                .routeId("csv-to-json")
                 .pipeline()
                 .to("activemq:split-queue")
                 .end();
