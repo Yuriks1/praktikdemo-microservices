@@ -53,7 +53,7 @@ public class MyFileRouter extends RouteBuilder {
     }
 }
 
-@Component
+//@Component
 class DeciderBean {
 
     Logger logger = LoggerFactory.getLogger(DeciderBean.class);

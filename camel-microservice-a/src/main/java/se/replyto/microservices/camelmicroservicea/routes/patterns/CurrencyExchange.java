@@ -2,15 +2,16 @@ package se.replyto.microservices.camelmicroservicea.routes.patterns;
 
 import java.math.BigDecimal;
 
-
 public class CurrencyExchange {
     private Long id;
     private String from;
     private String to;
+
     private BigDecimal conversionMultiple;
 
     public CurrencyExchange() {
     }
+
 
     public CurrencyExchange(Long id, String from, String to, BigDecimal conversionMultiple) {
         this.id = id;
@@ -18,7 +19,6 @@ public class CurrencyExchange {
         this.to = to;
         this.conversionMultiple = conversionMultiple;
     }
-
 
 
     public Long getId() {
@@ -52,6 +52,7 @@ public class CurrencyExchange {
     public void setConversionMultiple(BigDecimal conversionMultiple) {
         this.conversionMultiple = conversionMultiple;
     }
+
     @Override
     public String toString() {
         return "CurrencyExchange{" +

@@ -10,23 +10,23 @@ import se.replyto.microservices.camelmicroserviceb.CurrencyExchange;
 
 import java.math.BigDecimal;
 
-@Component
+//@Component
 public class ActiveMqReceiverRouter extends RouteBuilder {
 
     @Autowired
-    private MyCurrencyExchangeProcessor myCurrencyExchangeProcessor;
+     MyCurrencyExchangeProcessor myCurrencyExchangeProcessor;
     @Autowired
-    private MyCurrencyExchangeProcessorTransformer myCurrencyExchangeProcessorTransformer;
+     MyCurrencyExchangeProcessorTransformer myCurrencyExchangeProcessorTransformer;
 
     @Override
     public void configure() throws Exception {
 
 
-        /*from("activemq:my-activemq-queue")
+        from("file:files/json")
                 .unmarshal().json(JsonLibrary.Jackson,CurrencyExchange.class)
                 .bean(myCurrencyExchangeProcessor)
                 .bean(myCurrencyExchangeProcessorTransformer)
-                .to("log:received-message-from-active-mq");*/
+                .to("activemq:my-activemq-queue");
 
 
 //        from("activemq:my-activemq-xml-queue")
@@ -36,9 +36,9 @@ public class ActiveMqReceiverRouter extends RouteBuilder {
 //                .bean(myCurrencyExchangeProcessorTransformer)
 //                .to("log:received-message-from-active-xml-mq");
 
-        from("activemq:split-queue")
+        /*from("activemq:split-queue")
 
-                .to("log:received-message-from-active-mq");
+                .to("log:received-message-from-active-mq");*/
 
     }
 

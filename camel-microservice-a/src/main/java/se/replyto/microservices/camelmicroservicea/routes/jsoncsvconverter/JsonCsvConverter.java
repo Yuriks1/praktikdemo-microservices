@@ -1,3 +1,4 @@
+/*
 package se.replyto.microservices.camelmicroservicea.routes.jsoncsvconverter;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -57,4 +58,4 @@ public class JsonCsvConverter {
                 .with(csvSchema)
                 .writeValue(csvFile, orderLines);
     }
-}
+}*/
