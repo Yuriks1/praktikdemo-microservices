@@ -47,10 +47,10 @@ public class EipPatternsRouter extends RouteBuilder {
                 .split(body())
 */
                 .unmarshal().json(JsonLibrary.Jackson, CurrencyExchange.class)
-                /*.marshal(jacksonDataFormat)
+                .marshal(jacksonDataFormat)
                 .transform(body().regexReplaceAll("from", "source"))
                 .transform(body().regexReplaceAll("to", "dest"))
-                .transform(body().regexReplaceAll("conversionMultiple", "convRate"))*/
+                .transform(body().regexReplaceAll("conversionMultiple", "convRate"))
                 //.setBody(body().prepend("Here you can see currency exchange info:\n"))*/
                 //.routeId("csv-to-json")
                 //.pipeline()
