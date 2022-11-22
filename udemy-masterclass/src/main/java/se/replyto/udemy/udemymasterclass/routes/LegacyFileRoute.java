@@ -39,8 +39,8 @@ public class LegacyFileRoute extends RouteBuilder {
                 .streaming()
                 .unmarshal(inboundDataFormat)
                 .process(new NameAddressProcessor())
+                .marshal(jacksonDataFormat)
                 .log(LoggingLevel.INFO, "Transformed body : ${body}")
-                .convertBodyTo(String.class)
                 .to("activemq:my-activemq-queue")
                 .end();
     }

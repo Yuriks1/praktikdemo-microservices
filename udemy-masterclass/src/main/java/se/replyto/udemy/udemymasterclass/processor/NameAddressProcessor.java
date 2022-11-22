@@ -9,15 +9,12 @@ public class NameAddressProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         InboundNameAddress inboundNameAddress = exchange.getIn().getBody(InboundNameAddress.class);
-        exchange.getIn().setBody(new OutboundNameAddress(inboundNameAddress.getName(),returnFormattedAddress(inboundNameAddress)));
+        exchange.getIn().setBody(new OutboundNameAddress(inboundNameAddress.getName(),changeInformation(inboundNameAddress)));
     }
 
-    private String returnFormattedAddress(InboundNameAddress nameAddress) {
-        StringBuilder concatenatedAddress = new StringBuilder(200);
-        concatenatedAddress.append(nameAddress.getHouseNumber());
-        concatenatedAddress.append(" " + nameAddress.getCity() + ",");
-        concatenatedAddress.append(" " + nameAddress.getProvince());
-        concatenatedAddress.append(" " + nameAddress.getPostalCode());
+    private String changeInformation(InboundNameAddress nameAddress) {
+        StringBuilder concatenatedAddress = new StringBuilder(10);
+        concatenatedAddress.append(" " + nameAddress.getCity());
         return concatenatedAddress.toString();
     }
 }

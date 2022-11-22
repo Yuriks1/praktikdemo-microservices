@@ -23,7 +23,6 @@ public abstract class JsonTransform {
     @JsonProperty("conversionMultiple")
     private BigDecimal convRate;
 
-    @JsonIgnore
     private Long id;
 
 }

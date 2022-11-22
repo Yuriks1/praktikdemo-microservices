@@ -1,6 +1,7 @@
 package se.replyto.udemy.udemymasterclass.beans;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
