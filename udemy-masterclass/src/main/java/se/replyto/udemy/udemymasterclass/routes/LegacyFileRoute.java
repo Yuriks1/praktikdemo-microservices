@@ -4,12 +4,9 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.dataformat.beanio.BeanIODataFormat;
-import org.apache.camel.dataformat.csv.CsvDataFormat;
-import org.apache.camel.model.dataformat.JsonLibrary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import se.replyto.udemy.udemymasterclass.beans.InboundNameAddress;
 import se.replyto.udemy.udemymasterclass.processor.NameAddressProcessor;
 
 @Component
@@ -25,13 +22,6 @@ public class LegacyFileRoute extends RouteBuilder {
         JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();
         jacksonDataFormat.setPrettyPrint(true);
 
-        CsvDataFormat csvFormat = new CsvDataFormat();
-        csvFormat.setSkipHeaderRecord(true);
-        csvFormat.isCaptureHeaderRecord();
-        csvFormat.setDelimiter(',');
-        csvFormat.setUseOrderedMaps(true);
-        csvFormat.setAllowMissingColumnNames(false);
-        csvFormat.setIgnoreSurroundingSpaces(true);
 
         from("file:files/input")
                 .routeId("legacyFileRouteId")
