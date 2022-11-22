@@ -5,6 +5,7 @@
       <list>
         <option value="$PROJECT_DIR$/camel-microservice-a/pom.xml" />
         <option value="$PROJECT_DIR$/camel-microservice-b/pom.xml" />
+        <option value="$PROJECT_DIR$/udemy-masterclass/pom.xml" />
       </list>
     </option>
   </component>

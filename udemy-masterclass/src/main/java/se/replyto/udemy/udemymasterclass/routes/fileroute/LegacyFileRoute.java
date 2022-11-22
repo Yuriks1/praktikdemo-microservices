@@ -1,10 +1,11 @@
-package se.replyto.microservices.camelmicroservicea.routes.udemy;
+package se.replyto.udemy.udemymasterclass.routes.fileroute;
 
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+
 
 @Component
 public class LegacyFileRoute extends RouteBuilder {
@@ -22,6 +23,7 @@ public class LegacyFileRoute extends RouteBuilder {
                     logger.info("This is the read fileData: " + filedata);
 
                 })
-                .to("file:files/output?fileName=outputFile.csv&fileExist=Append&appendChars=\\n");
+                .to("file:files/output?fileName=outputFile.csv&fileExist=Append&appendChars=\\n")
+                .end();
     }
 }

@@ -6,7 +6,7 @@ import org.apache.camel.dataformat.csv.CsvDataFormat;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class EipPatternsRouter extends RouteBuilder {
 
 
