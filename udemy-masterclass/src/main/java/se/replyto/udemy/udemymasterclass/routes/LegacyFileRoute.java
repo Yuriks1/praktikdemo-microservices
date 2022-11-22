@@ -25,6 +25,7 @@ public class LegacyFileRoute extends RouteBuilder {
 
         from("file:files/input")
                 .routeId("legacyFileRouteId")
+                .log(LoggingLevel.INFO, "Original body : ${body}")
                 .split(body().tokenize("\n",1,true))
                 .streaming()
                 .unmarshal(inboundDataFormat)
