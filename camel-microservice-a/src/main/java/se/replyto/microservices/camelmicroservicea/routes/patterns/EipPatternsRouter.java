@@ -13,9 +13,9 @@ public class EipPatternsRouter extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        /*JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();
+        JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();
         jacksonDataFormat.setPrettyPrint(true);
-*/
+
         String inputDirectory = "file:files/csv";
         String outputDirectory = "activemq:split-queue";
 
