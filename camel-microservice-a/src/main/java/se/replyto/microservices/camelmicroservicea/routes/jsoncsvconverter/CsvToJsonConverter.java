@@ -1,4 +1,4 @@
-package se.replyto.microservices.camelmicroservicea.routes.patterns;
+package se.replyto.microservices.camelmicroservicea.routes.jsoncsvconverter;
 
 public class CsvToJsonConverter {
 

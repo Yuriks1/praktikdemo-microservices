@@ -1,13 +1,19 @@
 package se.replyto.microservices.camelmicroservicea.routes.patterns;
 
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
-import org.apache.camel.dataformat.csv.CsvDataFormat;
-import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.dataformat.beanio.BeanIODataFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import se.replyto.microservices.camelmicroservicea.routes.patterns.Processor;
 
 @Component
 public class EipPatternsRouter extends RouteBuilder {
+
+    BeanIODataFormat inboundDataFormat = new BeanIODataFormat("MessageBeanIOMapping.xml","MessageStream");
+    Logger logger = LoggerFactory.getLogger(getClass());
 
 
     @Override
@@ -16,57 +22,17 @@ public class EipPatternsRouter extends RouteBuilder {
         JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();
         jacksonDataFormat.setPrettyPrint(true);
 
-        String inputDirectory = "file:files/csv";
-        String outputDirectory = "activemq:split-queue";
 
-
-        CsvDataFormat csvFormat = new CsvDataFormat();
-        csvFormat.setSkipHeaderRecord(true);
-        csvFormat.isCaptureHeaderRecord();
-        csvFormat.setDelimiter(',');
-        csvFormat.setUseOrderedMaps(true);
-        csvFormat.setAllowMissingColumnNames(false);
-        csvFormat.setIgnoreSurroundingSpaces(true);
-
-        /*
-        pipeline
-        Content Based Router = choice()
-        Multicast
-
-                from("timer:multicast?period=10000")
-                        .multicast()
-                        .to("log:example1", "log:example2", "log:example3");
-        */
-
-
-        from(inputDirectory)
-                /*.unmarshal(csvFormat)
-                .process(exchange -> {
-                    System.out.println(exchange.getIn().getBody());
-                })
-                .split(body())
-*/
-                .unmarshal().json(JsonLibrary.Jackson, CurrencyExchange.class)
+        from("file:files/input")
+                .routeId("legacyFileRouteId")
+                .log(LoggingLevel.INFO, "Original body : ${body}")
+                .split(body().tokenize("\n",1,true))
+                .streaming()
+                .unmarshal(inboundDataFormat)
+                .process(new Processor())
                 .marshal(jacksonDataFormat)
-                .transform(body().regexReplaceAll("from", "source"))
-                .transform(body().regexReplaceAll("to", "dest"))
-                .transform(body().regexReplaceAll("conversionMultiple", "convRate"))
-                //.setBody(body().prepend("Here you can see currency exchange info:\n"))*/
-                //.routeId("csv-to-json")
-                //.pipeline()
-                .to(outputDirectory);
-                //.end();
-
-
-        /*{ "source": "USD",
-                "dest": "INR",
-                "convRate": 70
-        }*/
-
-
+                .log(LoggingLevel.INFO, "Transformed body : ${body}")
+                .to("activemq:my-activemq-queue")
+                .end();
     }
 }
-
-
-
-
