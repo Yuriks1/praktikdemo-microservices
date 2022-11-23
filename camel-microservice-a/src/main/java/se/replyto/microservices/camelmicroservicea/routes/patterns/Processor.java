@@ -6,7 +6,8 @@ public class Processor implements org.apache.camel.Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         CurrencyExchange exchangeRate = exchange.getIn().getBody(CurrencyExchange.class);
-        exchange.getIn().setBody(new OutboundCurrencyExchange(exchangeRate.getId(),exchangeRate.getFrom(),exchangeRate.getTo(),exchangeRate.getConversionMultiple()));
+        exchange.getIn().setBody(new OutboundCurrencyExchange(exchangeRate.getId(),exchangeRate.getFrom()
+                ,exchangeRate.getTo(),exchangeRate.getConversionMultiple()));
     }
 
    /* private String changeInformation(InboundNameAddress nameAddress) {
