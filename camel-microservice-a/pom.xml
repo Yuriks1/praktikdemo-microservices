@@ -89,9 +89,13 @@
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-http-starter</artifactId>
 			<version>3.18.1</version>
-
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.camel/spi-annotations -->
+		<dependency>
+			<groupId>org.apache.camel.springboot</groupId>
+			<artifactId>camel-crypto-starter</artifactId>
+			<version>3.19.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>spi-annotations</artifactId>
