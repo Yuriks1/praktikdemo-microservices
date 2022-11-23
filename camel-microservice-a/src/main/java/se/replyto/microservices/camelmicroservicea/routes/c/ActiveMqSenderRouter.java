@@ -15,18 +15,31 @@ public class ActiveMqSenderRouter extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        from("timer:active-mq-timer?period=5000")
+        // Enable tracing
+        getContext().setTracing(true);
+
+        //dead letter queue
+        errorHandler(deadLetterChannel("activemq:dead-letter-queue"));
+
+        /*from("timer:active-mq-timer?period=5000")
                 .transform().constant("My message for Active MQ")
                 .log("${body}")
                 .marshal(createEncryptor())
 //                .setProperty("myProperty", constant("MyProperty"))
 //                .setHeader("myHeader", constant("MyHeader"))
-                .to("activemq:my-activemq-queue");
-
-
-       /* from("file:files/json")
-                .log("${body}")
                 .to("activemq:my-activemq-queue");*/
+
+
+        from("file:files/json?fileName=daltons.json")
+                .log("${body}")
+
+                .errorHandler(deadLetterChannel("mock:error")
+                        .maximumRedeliveries(3)
+                        .redeliveryDelay(1000)
+                        .backOffMultiplier(2)
+                        .useOriginalMessage()
+                        .useExponentialBackOff())
+                .to("activemq:my-activemq-queue");
 
         /*from("file:files/xml")
                 .log("${body}")

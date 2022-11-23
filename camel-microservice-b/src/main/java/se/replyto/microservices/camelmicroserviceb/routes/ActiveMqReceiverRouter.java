@@ -28,7 +28,7 @@ public class ActiveMqReceiverRouter extends RouteBuilder {
 
 
         from("activemq:my-activemq-queue")
-                .unmarshal(createEncryptor())
+                //.unmarshal(createEncryptor())
 //                .unmarshal().json(JsonLibrary.Jackson,CurrencyExchange.class)
 //                .bean(myCurrencyExchangeProcessor)
 //                .bean(myCurrencyExchangeProcessorTransformer)
