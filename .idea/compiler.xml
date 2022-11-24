@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="error-handling" />
         <module name="udemy-masterclass" />
         <module name="camel-microservice-a" />
         <module name="camel-microservice-b" />
@@ -15,6 +16,7 @@
     <bytecodeTargetLevel>
       <module name="camel-microservice-a" target="17" />
       <module name="camel-microservice-b" target="17" />
+      <module name="error-handling" target="17" />
       <module name="udemy-masterclass" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -22,6 +24,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="camel-microservice-a" options="-parameters" />
       <module name="camel-microservice-b" options="-parameters" />
+      <module name="error-handling" options="-parameters" />
       <module name="udemy-masterclass" options="-parameters" />
     </option>
   </component>
