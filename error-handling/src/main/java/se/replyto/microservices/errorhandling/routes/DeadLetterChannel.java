@@ -1,5 +1,6 @@
 package se.replyto.microservices.errorhandling.routes;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
@@ -31,6 +32,8 @@ public class DeadLetterChannel extends RouteBuilder {
                 .errorHandler(deadLetterChannel("jms:deadMessages").onPrepareFailure(new MyPrepareProcessor()))
                 .log(LoggingLevel.INFO, "Original body : ${body}")
 
+                //.setHeader(Exchange.FILE_NAME, constant("example.txt"))
+
 //                //.split(body().tokenize("\n", 1, true)).stopOnException()
 //                .streaming()
 //                .convertBodyTo(String.class).process(exchange -> {
@@ -56,6 +59,5 @@ public class DeadLetterChannel extends RouteBuilder {
 
     }
 }
-
 
 
