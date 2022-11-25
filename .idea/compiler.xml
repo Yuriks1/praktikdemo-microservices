@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="error-handling" />
+        <module name="xml-uppgift" />
         <module name="udemy-masterclass" />
         <module name="camel-microservice-a" />
         <module name="camel-microservice-b" />
@@ -18,6 +19,7 @@
       <module name="camel-microservice-b" target="17" />
       <module name="error-handling" target="17" />
       <module name="udemy-masterclass" target="17" />
+      <module name="xml-uppgift" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -26,6 +28,7 @@
       <module name="camel-microservice-b" options="-parameters" />
       <module name="error-handling" options="-parameters" />
       <module name="udemy-masterclass" options="-parameters" />
+      <module name="xml-uppgift" options="-parameters" />
     </option>
   </component>
 </project>
