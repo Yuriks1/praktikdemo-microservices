@@ -30,14 +30,28 @@ public class DeadLetterChannel extends RouteBuilder {
                 .routeId("errorRouteId")
                 .errorHandler(deadLetterChannel("jms:deadMessages").onPrepareFailure(new MyPrepareProcessor()))
                 .log(LoggingLevel.INFO, "Original body : ${body}")
-                .split(body().tokenize("\n", 1, true))
-                .streaming()
-                /*.process(exchange -> {
-                    throw new RuntimeException("This is a test exception");
-                })*/
-                .to("file:files/output")
-                .log(LoggingLevel.INFO, " Body : ${body}")
-                .end();
+
+//                //.split(body().tokenize("\n", 1, true)).stopOnException()
+//                .streaming()
+//                .convertBodyTo(String.class).process(exchange -> {
+//                    System.out.println("Exchange id:"+ exchange.getExchangeId());
+//                    System.out.println("Headers :"+ exchange.getMessage().getHeaders());
+//                    System.out.println(exchange.getIn().getBody());
+//                    exchange.getMessage().setHeader("CamelFileName",exchange.getMessage().getHeader("CamelFileName") + ".out");
+//                })
+//                /*.process(exchange -> {
+//                    throw new RuntimeException("This is a test exception");
+//                })*/
+
+                //.split(xpath("//catalog/book[@id='id100']/author/text()"))  // Author name
+                //.split(xpath("//catalog/book/author[@age<40]/text()"))  //  just authors over 40 years old
+                //.split(xpath("//catalog/book[@id='id100']/author/text()")) // Authors whose id matches with ‘id100’
+
+                .to("log:output");
+//                .to("file:files/output")
+//                .log(LoggingLevel.INFO, " Body : ${body}")
+//                //.log("File Name: ${header.CamelFileName}, Body:${body} ")
+//                .end();
 
 
     }
