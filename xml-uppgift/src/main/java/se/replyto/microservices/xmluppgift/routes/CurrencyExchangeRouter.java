@@ -2,12 +2,14 @@ package se.replyto.microservices.xmluppgift.routes;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.converter.jaxb.JaxbDataFormat;
 import org.apache.camel.dataformat.csv.CsvDataFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import se.replyto.microservices.xmluppgift.beans.InboundCurrencyExchange;
+import se.replyto.microservices.xmluppgift.processor.Processor;
 import se.replyto.microservices.xmluppgift.processor.ProcessorCsv;
 
 import javax.xml.bind.JAXBContext;
@@ -37,17 +39,33 @@ public class CurrencyExchangeRouter extends RouteBuilder {
         csvFormat.setAllowMissingColumnNames(false);
         csvFormat.setIgnoreSurroundingSpaces(true);
 
+        JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();
+        jacksonDataFormat.setPrettyPrint(true);
+
 
         from("file:files/xml")
 
                 .routeId("currencyExchangeRouteId")
                 .log(LoggingLevel.INFO, "Original body : ${body}")
                 .unmarshal(xmlDataFormat)
-                .process(new ProcessorCsv())
-                //.marshal(jsonDataFormat)
-                .marshal(csvFormat)
-                .log(LoggingLevel.INFO, "New body : ${body}")
-                .to("activemq:my-activemq-queue");
+                .multicast()
+                .to("activemq:csv", "activemq:json");
+
+
+
+
+        from("activemq:csv").process(new ProcessorCsv())
+                .marshal()
+                .csv()
+                .log(LoggingLevel.INFO, "New body Csv : ${body}")
+                .to("file:files/output");
+
+
+        from("activemq:json")
+                .process(new Processor())
+                .marshal(jacksonDataFormat)
+                .log(LoggingLevel.INFO, "New body Json : ${body}")
+                .to("activemq:jsonOut");
 
 
     }
