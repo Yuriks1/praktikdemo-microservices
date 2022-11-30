@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import se.replyto.microservices.errorhandling.processor.MyPrepareProcessor;
 
 
-@Component
+//@Component
 public class DeadLetterChannel extends RouteBuilder {
     @Override
     public void configure() throws Exception {

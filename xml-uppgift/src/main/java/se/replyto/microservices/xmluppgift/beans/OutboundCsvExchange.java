@@ -1,28 +1,32 @@
 package se.replyto.microservices.xmluppgift.beans;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
+import org.apache.camel.dataformat.bindy.annotation.DataField;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.math.BigDecimal;
+@CsvRecord(separator = ";" )
+public class OutboundCsvExchange {
 
-
-@XmlRootElement(name = "root")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class InboundCurrencyExchange {
-
-
-    @XmlElement
+    @DataField(pos = 1)
     Long id;
-    @XmlElement
+
+    @DataField(pos = 2)
     String from;
-    @XmlElement
+
+    @DataField(pos = 3)
     String to;
-    @XmlElement
+
+    @DataField(pos = 4)
     Double conversionMultiple;
 
-    public InboundCurrencyExchange() {
+    public OutboundCsvExchange() {
+    }
+
+    public OutboundCsvExchange(Long id, String from, String to, Double conversionMultiple) {
+        this.id = id;
+        this.from = from;
+        this.to = to;
+        this.conversionMultiple = conversionMultiple;
     }
 
     public Long getId() {
@@ -49,17 +53,17 @@ public class InboundCurrencyExchange {
         this.to = to;
     }
 
-    public double getConversionMultiple() {
+    public Double getConversionMultiple() {
         return conversionMultiple;
     }
 
-    public void setConversionMultiple(double conversionMultiple) {
+    public void setConversionMultiple(Double conversionMultiple) {
         this.conversionMultiple = conversionMultiple;
     }
 
     @Override
     public String toString() {
-        return "InboundCurrencyExchange{" +
+        return "OutboundCsvExchange{" +
                 "id=" + id +
                 ", from='" + from + '\'' +
                 ", to='" + to + '\'' +

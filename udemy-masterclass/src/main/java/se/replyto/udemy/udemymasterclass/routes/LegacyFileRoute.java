@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import se.replyto.udemy.udemymasterclass.processor.NameAddressProcessor;
 
-//@Component
+@Component
 public class LegacyFileRoute extends RouteBuilder {
 
     BeanIODataFormat inboundDataFormat = new BeanIODataFormat("InboundMessageBeanIOMapping.xml","inboundMessageStream");

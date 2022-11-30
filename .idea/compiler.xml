@@ -7,14 +7,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="error-handling" />
         <module name="xml-uppgift" />
+        <module name="error-handling" />
         <module name="udemy-masterclass" />
         <module name="camel-microservice-a" />
         <module name="camel-microservice-b" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="camel-marshalling-unmarshalling-activemq" target="19" />
       <module name="camel-microservice-a" target="17" />
       <module name="camel-microservice-b" target="17" />
       <module name="error-handling" target="17" />
