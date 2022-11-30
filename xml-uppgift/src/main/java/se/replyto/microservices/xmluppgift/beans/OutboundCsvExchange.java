@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 
-@CsvRecord(separator = ";" )
+@CsvRecord(separator = ",",generateHeaderColumns = true )
 public class OutboundCsvExchange {
 
     @DataField(pos = 1)

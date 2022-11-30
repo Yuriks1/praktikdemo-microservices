@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import se.replyto.microservices.xmluppgift.beans.InboundCurrencyExchange;
+import se.replyto.microservices.xmluppgift.beans.OutboundCurrencyExchange;
 import se.replyto.microservices.xmluppgift.processor.Processor;
 import se.replyto.microservices.xmluppgift.processor.ProcessorCsv;
 
@@ -39,6 +40,7 @@ public class CurrencyExchangeRouter extends RouteBuilder {
         csvFormat.setAllowMissingColumnNames(false);
         csvFormat.setIgnoreSurroundingSpaces(true);
 
+
         JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();
         jacksonDataFormat.setPrettyPrint(true);
 
@@ -54,14 +56,16 @@ public class CurrencyExchangeRouter extends RouteBuilder {
 
 
 
-        from("activemq:csv").process(new ProcessorCsv())
-                .marshal()
-                .csv()
+        from("activemq:csv")
+
+                .process(new ProcessorCsv())
+                .marshal(csvFormat)
                 .log(LoggingLevel.INFO, "New body Csv : ${body}")
                 .to("file:files/output");
 
 
         from("activemq:json")
+
                 .process(new Processor())
                 .marshal(jacksonDataFormat)
                 .log(LoggingLevel.INFO, "New body Json : ${body}")
