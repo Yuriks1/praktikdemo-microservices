@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <line>
+        <id>1001</id>
+        <from>EUR</from>
+        <to>INR</to>
+        <conversionMultiple>80</conversionMultiple>
+    </line>
+    <line>
+        <id>1002</id>
+        <from>NKE</from>
+        <to>EUR</to>
+        <conversionMultiple>89</conversionMultiple>
+    </line>
+    <line>
+        <id>1003</id>
+        <from>SSK</from>
+        <to>ORK</to>
+        <conversionMultiple>50</conversionMultiple>
+    </line>
+</root>

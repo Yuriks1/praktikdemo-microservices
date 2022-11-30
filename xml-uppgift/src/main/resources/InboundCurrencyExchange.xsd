@@ -1,19 +1,16 @@
-<?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://www.javatpoint.com"
-           xmlns="http://www.javatpoint.com"
-           elementFormDefault="qualified">
-
-    <xs:element name="InboundCurrencyExchange">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="id" type="xs:string"/>
-                <xs:element name="from" type="xs:string"/>
-                <xs:element name="to" type="xs:string"/>
-                <xs:element name="conversionMultiple" type="xs:string"/>
-
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="root" type="rootType"/>
+    <xs:complexType name="lineType">
+        <xs:sequence>
+            <xs:element type="xs:short" name="id"/>
+            <xs:element type="xs:string" name="from"/>
+            <xs:element type="xs:string" name="to"/>
+            <xs:element type="xs:byte" name="conversionMultiple"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="rootType">
+        <xs:sequence>
+            <xs:element type="lineType" name="line" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>

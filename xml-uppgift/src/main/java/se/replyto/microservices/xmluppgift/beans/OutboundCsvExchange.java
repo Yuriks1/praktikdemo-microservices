@@ -1,10 +1,9 @@
 package se.replyto.microservices.xmluppgift.beans;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 
-@CsvRecord(separator = ",",generateHeaderColumns = true )
+@CsvRecord(separator = ",")
 public class OutboundCsvExchange {
 
     @DataField(pos = 1)

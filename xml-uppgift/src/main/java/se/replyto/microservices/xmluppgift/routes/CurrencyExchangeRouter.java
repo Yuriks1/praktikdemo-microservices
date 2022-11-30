@@ -4,12 +4,12 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.converter.jaxb.JaxbDataFormat;
+import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
 import org.apache.camel.dataformat.csv.CsvDataFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import se.replyto.microservices.xmluppgift.beans.InboundCurrencyExchange;
-import se.replyto.microservices.xmluppgift.beans.OutboundCurrencyExchange;
 import se.replyto.microservices.xmluppgift.processor.Processor;
 import se.replyto.microservices.xmluppgift.processor.ProcessorCsv;
 
@@ -22,6 +22,7 @@ public class CurrencyExchangeRouter extends RouteBuilder {
     public void configure() throws Exception {
 
         Logger logger = LoggerFactory.getLogger(getClass());
+
 
 
         JaxbDataFormat xmlDataFormat = new JaxbDataFormat();
@@ -39,6 +40,9 @@ public class CurrencyExchangeRouter extends RouteBuilder {
         csvFormat.setUseOrderedMaps(true);
         csvFormat.setAllowMissingColumnNames(false);
         csvFormat.setIgnoreSurroundingSpaces(true);
+        csvFormat.setIgnoreEmptyLines(true);
+        csvFormat.setIgnoreHeaderCase(true);
+        csvFormat.setIgnoreSurroundingSpaces(true);
 
 
         JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();
@@ -49,27 +53,33 @@ public class CurrencyExchangeRouter extends RouteBuilder {
 
                 .routeId("currencyExchangeRouteId")
                 .log(LoggingLevel.INFO, "Original body : ${body}")
+
                 .unmarshal(xmlDataFormat)
+                .split(body())
                 .multicast()
-                .to("activemq:csv", "activemq:json");
+
+                .to("direct:csv", "direct:json")
+                .end();
 
 
 
 
-        from("activemq:csv")
+        from("direct:csv")
 
                 .process(new ProcessorCsv())
                 .marshal(csvFormat)
                 .log(LoggingLevel.INFO, "New body Csv : ${body}")
-                .to("file:files/output");
+                .to("file:files/output?fileName=1000.csv")
+                .end();
 
 
-        from("activemq:json")
+        from("direct:json")
 
                 .process(new Processor())
                 .marshal(jacksonDataFormat)
                 .log(LoggingLevel.INFO, "New body Json : ${body}")
-                .to("activemq:jsonOut");
+                .to("activemq:jsonOut")
+                .end();
 
 
     }
