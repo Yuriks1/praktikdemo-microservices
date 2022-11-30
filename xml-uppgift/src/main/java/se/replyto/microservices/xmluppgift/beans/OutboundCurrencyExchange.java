@@ -20,20 +20,17 @@ public class OutboundCurrencyExchange {
     String to;
 
     @JsonProperty("convRate")
-    Double conversionMultiple;
+    int conversionMultiple;
 
     public OutboundCurrencyExchange() {
     }
-    
 
-    public OutboundCurrencyExchange(Long id, String from, String to, Double conversionMultiple) {
+    public OutboundCurrencyExchange(Long id, String from, String to, int conversionMultiple) {
         this.id = id;
         this.from = from;
         this.to = to;
         this.conversionMultiple = conversionMultiple;
     }
-
-
 
     public Long getId() {
         return id;
@@ -59,11 +56,11 @@ public class OutboundCurrencyExchange {
         this.to = to;
     }
 
-    public Double getConversionMultiple() {
+    public int getConversionMultiple() {
         return conversionMultiple;
     }
 
-    public void setConversionMultiple(Double conversionMultiple) {
+    public void setConversionMultiple(int conversionMultiple) {
         this.conversionMultiple = conversionMultiple;
     }
 

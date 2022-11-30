@@ -16,12 +16,12 @@ public class OutboundCsvExchange {
     String to;
 
     @DataField(pos = 4)
-    Double conversionMultiple;
+    int conversionMultiple;
 
     public OutboundCsvExchange() {
     }
 
-    public OutboundCsvExchange(Long id, String from, String to, Double conversionMultiple) {
+    public OutboundCsvExchange(Long id, String from, String to, int conversionMultiple) {
         this.id = id;
         this.from = from;
         this.to = to;
@@ -52,11 +52,11 @@ public class OutboundCsvExchange {
         this.to = to;
     }
 
-    public Double getConversionMultiple() {
+    public int getConversionMultiple() {
         return conversionMultiple;
     }
 
-    public void setConversionMultiple(Double conversionMultiple) {
+    public void setConversionMultiple(int conversionMultiple) {
         this.conversionMultiple = conversionMultiple;
     }
 

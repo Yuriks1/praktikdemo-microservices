@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.math.BigDecimal;
 
 
 @XmlRootElement(name = "root")
@@ -20,9 +19,16 @@ public class InboundCurrencyExchange {
     @XmlElement
     String to;
     @XmlElement
-    Double conversionMultiple;
+    int conversionMultiple;
 
     public InboundCurrencyExchange() {
+    }
+
+    public InboundCurrencyExchange(Long id, String from, String to, int conversionMultiple) {
+        this.id = id;
+        this.from = from;
+        this.to = to;
+        this.conversionMultiple = conversionMultiple;
     }
 
     public Long getId() {
@@ -49,11 +55,11 @@ public class InboundCurrencyExchange {
         this.to = to;
     }
 
-    public double getConversionMultiple() {
+    public int getConversionMultiple() {
         return conversionMultiple;
     }
 
-    public void setConversionMultiple(double conversionMultiple) {
+    public void setConversionMultiple(int conversionMultiple) {
         this.conversionMultiple = conversionMultiple;
     }
 
