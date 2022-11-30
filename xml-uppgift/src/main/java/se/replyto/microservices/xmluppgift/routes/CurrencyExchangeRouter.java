@@ -1,5 +1,6 @@
 package se.replyto.microservices.xmluppgift.routes;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import se.replyto.microservices.xmluppgift.beans.InboundCurrencyExchange;
+import se.replyto.microservices.xmluppgift.beans.OutboundCurrencyExchange;
 import se.replyto.microservices.xmluppgift.processor.Processor;
 import se.replyto.microservices.xmluppgift.processor.ProcessorCsv;
 
@@ -45,8 +47,8 @@ public class CurrencyExchangeRouter extends RouteBuilder {
         csvFormat.setIgnoreSurroundingSpaces(true);
 
 
-        JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();
-        jacksonDataFormat.setPrettyPrint(true);
+        JacksonDataFormat jsonDataFormat = new JacksonDataFormat(OutboundCurrencyExchange.class);
+        jsonDataFormat.setPrettyPrint(true);
 
 
         from("file:files/xml")
@@ -65,22 +67,41 @@ public class CurrencyExchangeRouter extends RouteBuilder {
 
 
         from("direct:csv")
+                .doTry()
+
 
                 .process(new ProcessorCsv())
                 .marshal(csvFormat)
                 .log(LoggingLevel.INFO, "New body Csv : ${body}")
                 .to("file:files/output?fileName=1000.csv")
+                .doCatch(Exception.class)
+                .process(new Processor() {
+                    public void process(Exchange exchange) throws Exception {
+                        Exception cause = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
+                        System.out.println(cause);
+                    }
+                }
+                )
                 .end();
 
 
         from("direct:json")
+                .doTry()
 
                 .process(new Processor())
-                .marshal(jacksonDataFormat)
+                .marshal(jsonDataFormat)
                 .log(LoggingLevel.INFO, "New body Json : ${body}")
                 .to("activemq:jsonOut")
-                .end();
-
+                .doCatch(Exception.class)
+                .process(new Processor() {
+                    public void process(Exchange exchange) throws Exception {
+                        Exception cause = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
+                        System.out.println(cause);
+                    }
+                })              .end();
 
     }
 }
+
+
+
