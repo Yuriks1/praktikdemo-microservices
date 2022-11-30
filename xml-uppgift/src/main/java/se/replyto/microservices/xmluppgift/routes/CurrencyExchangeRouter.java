@@ -5,7 +5,6 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.converter.jaxb.JaxbDataFormat;
-import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
 import org.apache.camel.dataformat.csv.CsvDataFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,11 +54,8 @@ public class CurrencyExchangeRouter extends RouteBuilder {
 
                 .routeId("currencyExchangeRouteId")
                 .log(LoggingLevel.INFO, "Original body : ${body}")
-
                 .unmarshal(xmlDataFormat)
-                .split(body())
                 .multicast()
-
                 .to("direct:csv", "direct:json")
                 .end();
 
@@ -67,8 +63,8 @@ public class CurrencyExchangeRouter extends RouteBuilder {
 
 
         from("direct:csv")
-                .doTry()
 
+                .doTry()
 
                 .process(new ProcessorCsv())
                 .marshal(csvFormat)
@@ -80,12 +76,12 @@ public class CurrencyExchangeRouter extends RouteBuilder {
                         Exception cause = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
                         System.out.println(cause);
                     }
-                }
-                )
+                })
                 .end();
 
 
         from("direct:json")
+
                 .doTry()
 
                 .process(new Processor())
@@ -98,7 +94,8 @@ public class CurrencyExchangeRouter extends RouteBuilder {
                         Exception cause = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
                         System.out.println(cause);
                     }
-                })              .end();
+                })
+                .end();
 
     }
 }
