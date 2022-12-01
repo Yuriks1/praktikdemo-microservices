@@ -3,11 +3,8 @@ package se.replyto.microservices.xmluppgift.beans;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.math.BigDecimal;
-
 
 @JsonIgnoreProperties(value = {"ID"})
-
 public class OutboundCurrencyExchange {
 
     @JsonProperty("ID")

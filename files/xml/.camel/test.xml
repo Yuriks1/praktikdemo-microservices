@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="C:\Users\juris\IdeaProjects\praktikdemo-microservices\xml-uppgift\src\main\resources\InboundCurrencyExchange.xsd">
+    <line>
+        <id>1001</id>
+        <from>EUR</from>
+        <to>INR</to>
+        <conversionMultiple>80</conversionMultiple>
+    </line>
+    <line>
+        <id>1002</id>
+        <from>NKE</from>
+        <to>EUR</to>
+        <conversionMultiple>89</conversionMultiple>
+    </line>
+    <line>
+        <id>1003</id>
+        <from>SSK</from>
+        <to>ORK</to>
+        <conversionMultiple>50</conversionMultiple>
+    </line>
+</root>

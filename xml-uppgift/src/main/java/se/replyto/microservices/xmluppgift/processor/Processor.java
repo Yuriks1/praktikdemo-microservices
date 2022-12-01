@@ -23,5 +23,4 @@ public class Processor implements org.apache.camel.Processor {
 
 
     }
-
 }

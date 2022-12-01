@@ -3,19 +3,19 @@ package se.replyto.microservices.xmluppgift.beans;
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 
-@CsvRecord(separator = ",")
+@CsvRecord(separator = ",", crlf = "UNIX")
 public class OutboundCsvExchange {
 
-    @DataField(pos = 1)
+    @DataField(pos = 1, columnName = "Id")
     Long id;
 
-    @DataField(pos = 2)
+    @DataField(pos = 2, columnName = "source")
     String from;
 
-    @DataField(pos = 3)
+    @DataField(pos = 3, columnName = "dest")
     String to;
 
-    @DataField(pos = 4)
+    @DataField(pos = 4, columnName = "convRate")
     int conversionMultiple;
 
     public OutboundCsvExchange() {

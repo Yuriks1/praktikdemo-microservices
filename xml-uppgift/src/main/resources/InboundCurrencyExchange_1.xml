@@ -1,0 +1,9 @@
+<root>
+  <!--Zero or more repetitions:-->
+  <line>
+    <id>10</id>
+    <from>string</from>
+    <to>string</to>
+    <conversionMultiple>3</conversionMultiple>
+  </line>
+</root>
