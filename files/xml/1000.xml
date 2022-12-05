@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+   <FromCurrency>USD</FromCurrency>
+   <ToCurrency>INR</ToCurrency>
+   <CurrencyRate>70</CurrencyRate>
+</root>

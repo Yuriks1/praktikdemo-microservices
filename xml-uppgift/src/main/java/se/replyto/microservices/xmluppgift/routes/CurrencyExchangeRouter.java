@@ -6,31 +6,32 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.converter.jaxb.JaxbDataFormat;
 import org.apache.camel.dataformat.csv.CsvDataFormat;
-import org.apache.camel.model.dataformat.BindyType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
 import se.replyto.microservices.xmluppgift.beans.InboundCurrencyExchange;
-import se.replyto.microservices.xmluppgift.beans.OutboundCsvExchange;
 import se.replyto.microservices.xmluppgift.beans.OutboundCurrencyExchange;
 import se.replyto.microservices.xmluppgift.processor.Processor;
 import se.replyto.microservices.xmluppgift.processor.ProcessorCsv;
 
 import javax.xml.bind.JAXBContext;
+import java.util.Arrays;
 
 @Component
 public class CurrencyExchangeRouter extends RouteBuilder {
 
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
+
+
     @Override
     public void configure() throws Exception {
 
-        Logger logger = LoggerFactory.getLogger(getClass());
 
         JaxbDataFormat xmlDataFormat = new JaxbDataFormat();
-        JAXBContext con = JAXBContext.newInstance(InboundCurrencyExchange.class);
-        xmlDataFormat.setContext(con);
-        xmlDataFormat.setPrettyPrint(true);
-        xmlDataFormat.setIgnoreJAXBElement(false);
+        JAXBContext jaxbContext = JAXBContext.newInstance(InboundCurrencyExchange.class);
+        xmlDataFormat.setContext(jaxbContext);
+        xmlDataFormat.setContentTypeHeader(true);
+        xmlDataFormat.setEncoding("UTF-8");
+
 
         validator()
                 .type("xml")
@@ -38,6 +39,7 @@ public class CurrencyExchangeRouter extends RouteBuilder {
 
 
         CsvDataFormat csvFormat = new CsvDataFormat();
+        csvFormat.setHeader(Arrays.asList("FromCurrency", "ToCurrency", "CurrencyRate").toString());
         csvFormat.setSkipHeaderRecord(true);
         csvFormat.setDelimiter(',');
         csvFormat.setUseOrderedMaps(true);
@@ -47,35 +49,34 @@ public class CurrencyExchangeRouter extends RouteBuilder {
         csvFormat.setIgnoreHeaderCase(true);
 
 
+
         JacksonDataFormat jsonDataFormat = new JacksonDataFormat(OutboundCurrencyExchange.class);
         jsonDataFormat.setPrettyPrint(true);
 
 
-
         from("file:files/xml")
-//                .split()
-//                .simple("${body}")
-
+                /* .split()
+                 .simple("${body}")
+                 .streaming()
+ */
                 .routeId("currencyExchangeRouteId")
                 .log(LoggingLevel.INFO, "Original body : ${body}")
                 .unmarshal(xmlDataFormat)
-                .log(LoggingLevel.INFO, "After XML unmarshal, body : ${body}")
+                .log(LoggingLevel.INFO, "Unmarshalled body : ${body}")
 
                 .multicast()
-                    .log(LoggingLevel.INFO, "Before CSV route call : ${body}")
-                    .to("direct:csv")
-                    .log(LoggingLevel.INFO, "Before JSON route call : ${body}")
-                    .to("direct:json")
-                    .log(LoggingLevel.INFO, "After JSON route call : ${body}")
+                .log(LoggingLevel.INFO, "Before CSV route call : ${body}")
+                .to("direct:csv")
+                .log(LoggingLevel.INFO, "Before JSON route call : ${body}")
+                .to("direct:json")
+                .log(LoggingLevel.INFO, "After JSON route call : ${body}")
                 .end();
 
 
         from("direct:csv")
                 .doTry()
                 .process(new ProcessorCsv())
-                .marshal()
-                .bindy(BindyType.Csv, OutboundCsvExchange.class)
-                .log(LoggingLevel.INFO, "New body Csv : ${body}")
+                .marshal(csvFormat)
                 .to("file:files/output?fileName=1000.csv")
                 .doCatch(Exception.class)
                 .process(new Processor() {
@@ -88,7 +89,7 @@ public class CurrencyExchangeRouter extends RouteBuilder {
 
 
         from("direct:json")
-               .doTry()
+                .doTry()
                 .log(LoggingLevel.INFO, "Before json processor : ${body}")
                 .process(new Processor())
                 .log(LoggingLevel.INFO, "After json processor : ${body}")
@@ -103,10 +104,16 @@ public class CurrencyExchangeRouter extends RouteBuilder {
                     }
                 })
                 .end();
-
     }
 
+/
+
+
 }
+
+
+
+
 
 
 

@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/error-handling/error-handling.iml" filepath="$PROJECT_DIR$/error-handling/error-handling.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/praktikdemo-microservices.iml" filepath="$PROJECT_DIR$/.idea/praktikdemo-microservices.iml" />
       <module fileurl="file://$PROJECT_DIR$/udemy-masterclass/udemy-masterclass.iml" filepath="$PROJECT_DIR$/udemy-masterclass/udemy-masterclass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/uppgift-example/uppgift-example.iml" filepath="$PROJECT_DIR$/uppgift-example/uppgift-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/xml-uppgift/xml-uppgift.iml" filepath="$PROJECT_DIR$/xml-uppgift/xml-uppgift.iml" />
     </modules>
   </component>

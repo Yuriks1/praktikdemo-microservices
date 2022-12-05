@@ -11,6 +11,7 @@
         <module name="error-handling" />
         <module name="udemy-masterclass" />
         <module name="camel-microservice-a" />
+        <module name="uppgift-example" />
         <module name="camel-microservice-b" />
       </profile>
     </annotationProcessing>
@@ -20,6 +21,7 @@
       <module name="camel-microservice-b" target="17" />
       <module name="error-handling" target="17" />
       <module name="udemy-masterclass" target="17" />
+      <module name="uppgift-example" target="17" />
       <module name="xml-uppgift" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -29,6 +31,7 @@
       <module name="camel-microservice-b" options="-parameters" />
       <module name="error-handling" options="-parameters" />
       <module name="udemy-masterclass" options="-parameters" />
+      <module name="uppgift-example" options="-parameters" />
       <module name="xml-uppgift" options="-parameters" />
     </option>
   </component>
